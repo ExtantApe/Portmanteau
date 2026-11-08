@@ -278,6 +278,21 @@ public final class Helper extends JavaPlugin implements Listener {
                 Bukkit.getPluginManager().callEvent(e);
                 yield obj("block", e.useInteractedBlock().name(), "item", e.useItemInHand().name());
             }
+            case "placetrunk" -> {
+                // Places a trunk the way a player does: the block goes down, then Paper's place event fires with the
+                // trunk item in hand, so Portmanteau's own listener marks it.
+                Player p = player(a[2]);
+                Block b = block(a, 3);
+                ItemStack trunk = giveViaCommand("trunk", p);
+                var replaced = b.getState();
+                b.setType(Material.LODESTONE, false);
+                var e = new org.bukkit.event.block.BlockPlaceEvent(b, replaced, b.getRelative(BlockFace.DOWN), trunk, p, true,
+                        org.bukkit.inventory.EquipmentSlot.HAND);
+                Bukkit.getPluginManager().callEvent(e);
+                if (e.isCancelled()) b.setBlockData(replaced.getBlockData(), false);
+                yield obj("placed", !e.isCancelled());
+            }
+            case "uuid" -> obj("uuid", player(a[2]).getUniqueId().toString());
             case "workbench" -> {
                 player(a[2]).openWorkbench(null, true);
                 yield obj("ok", true);
@@ -509,22 +524,31 @@ public final class Helper extends JavaPlugin implements Listener {
         };
     }
 
-    /** A real key or trunk item, made the way an admin gives one, so the test uses Portmanteau's own item. */
     private ItemStack giveViaCommand(String what) {
-        Player holder = Bukkit.getOnlinePlayers().iterator().next();
-        ItemStack[] before = holder.getInventory().getContents().clone();
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "portmanteau trunk give " + holder.getName() + " " + what);
-        ItemStack[] after = holder.getInventory().getContents();
-        for (int i = 0; i < after.length; i++) {
-            if (after[i] != null && (before[i] == null || before[i].getAmount() != after[i].getAmount())) {
-                ItemStack one = after[i].clone();
+        return giveViaCommand(what, Bukkit.getOnlinePlayers().iterator().next());
+    }
+
+    /**
+     * A real key or trunk item, given beforehand by the test with /portmanteau trunk give, so the test uses Portmanteau's
+     * own item. Takes one from anyone online who has one.
+     */
+    private ItemStack giveViaCommand(String what, Player preferred) {
+        String want = what.equals("key") ? "multiversal_key" : "multiversal_trunk";
+        List<Player> order = new ArrayList<>();
+        order.add(preferred);
+        order.addAll(Bukkit.getOnlinePlayers());
+        for (Player p : order) {
+            ItemStack[] c = p.getInventory().getContents();
+            for (int i = 0; i < c.length; i++) {
+                if (!want.equals(kind(c[i]))) continue;
+                ItemStack one = c[i].clone();
                 one.setAmount(1);
-                after[i].setAmount(after[i].getAmount() - 1);
-                holder.getInventory().setContents(after);
+                c[i].setAmount(c[i].getAmount() - 1);
+                p.getInventory().setContents(c);
                 return one;
             }
         }
-        throw new IllegalStateException("give didn't add an item");
+        throw new IllegalStateException("no " + want + " to take; give one first");
     }
 
     private static String kind(ItemStack i) {

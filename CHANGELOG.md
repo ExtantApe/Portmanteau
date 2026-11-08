@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.1
+
+Fixes to `/portmanteau import chestsort`, found by trying it on a copy of a real ChestSort setup.
+
+- Only files whose name starts with a number are copied as categories. ChestSort's read-me used to become an empty 13th category, with warnings on every reload. Anything left out is named in one line of the report. The category folder skips such files too, with one line in the console.
+- After an import, the presets are fitted to the new categories: names that no longer exist are taken out of each preset, a preset left with nothing to do is removed, and if it was the default, the default goes back to `server`. The report lists each change. Before, every reload warned about the missing names.
+- The import saves `config.yml` keeping its comments, through a temporary file and a rename. Comment loss was seen on one server but couldn't be reproduced on a stock config, so the cause there isn't known; tests now check that every comment survives the import.
+- Owner decisions confirmed on 2026-11-08: all six of 0.1.0's proposed design choices, and sorting staying forced on the owner's servers. See [docs/decisions.md](docs/decisions.md).
+
 ## 0.1.0
 
 First version.
@@ -12,4 +21,5 @@ First version.
 - Cancellable `PortmanteauSortEvent`, `PortmanteauSortedEvent`, and `SortingApi` for other plugins.
 - The multiversal trunk: a Multiversal Key and a trunk to craft, 54 slots of the player's own storage per inventory group, linked groups, kids' and adults' groups never linked, storage in the player's own data with a readable admin copy, no automation in or out, and breaking it never drops what's stored.
 
-Not yet confirmed: some design choices in this version were proposed during the build and are waiting on the owner: the trunk being a lodestone underneath, the scope shown when it opens, the key being used up, trunks opening only in survival and adventure, no restore command, and links changing which storage opens. They're listed in [docs/decisions.md](docs/decisions.md) and may change in a later version.
+
+The design choices this version shipped with as proposals (the trunk being a lodestone underneath, the scope shown when it opens, the key being used up, trunks opening only in survival and adventure, no restore command, and links changing which storage opens) were confirmed by the owner on 2026-11-08. See [docs/decisions.md](docs/decisions.md).

@@ -2,7 +2,7 @@
 
 Chest and inventory sorting for Paper that checks every item survives each sort, plus a multiversal trunk: a craftable block that opens 54 slots of your own storage, shared across linked worlds.
 
-**Status: 0.1, early.** Tested on throwaway Paper 26.1.2, 26.2 and 26.3 servers with bots: 583 live checks passed, including crash tests that `kill -9` the server while items move in and out of a trunk, with nothing lost or duplicated, and CoreProtect rollbacks after a sort (on 26.1.2 and 26.2; there's no CoreProtect build for 26.3 yet). It hasn't been seen in a real game client yet, so the `/sort` dialog's layout, how messages read, middle-click in survival, and the trunk's look are unchecked. Other plugins' screens were tested with stand-ins, not the real plugins. See [test/live](test/live/README.md) for what was real and what wasn't.
+**Status: 0.1, early.** Tested on throwaway Paper 26.1.2, 26.2 and 26.3 servers with bots: 583 live checks passed for 0.1.0, and for 0.1.1 the ChestSort import (39 more checks) and both sorting suites passed again, including crash tests that `kill -9` the server while items move in and out of a trunk, with nothing lost or duplicated, and CoreProtect rollbacks after a sort (on 26.1.2 and 26.2; there's no CoreProtect build for 26.3 yet). It hasn't been seen in a real game client yet, so the `/sort` dialog's layout, how messages read, middle-click in survival, and the trunk's look are unchecked. Other plugins' screens were tested with stand-ins, not the real plugins. See [test/live](test/live/README.md) for what was real and what wasn't.
 
 ## What it does
 
@@ -42,7 +42,7 @@ Sorting a sorted chest writes nothing, and the same chest always sorts the same 
 3. Optional: Multiverse-Inventories for the trunk's groups, GriefPrevention for claim checks.
 4. Edit `plugins/Portmanteau/config.yml`; see [docs/config.md](docs/config.md). `/portmanteau reload` applies changes.
 
-Coming from ChestSort: `/portmanteau import chestsort` copies its category files and sorting method. Every other ChestSort setting is listed for you to set by hand.
+Coming from ChestSort: `/portmanteau import chestsort` copies its category files (only the ones whose name starts with a number), its sorting method and its disabled worlds, and takes category names that no longer exist out of the presets. Every other ChestSort setting is listed for you to set by hand. Your current categories are moved aside first, and `config.yml` keeps its comments.
 
 ## Commands
 

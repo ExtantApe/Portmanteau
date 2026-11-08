@@ -65,7 +65,7 @@ Ties always break on the item's full data, so the same chest always sorts the sa
 
 ### Categories
 
-`plugins/Portmanteau/categories/` holds one text file per category, in ChestSort's format, so ChestSort's files work unchanged. Files sort by the number at the start of their name. The name after the number, such as `tools` in `010-tools.txt`, is the category's id for presets.
+`plugins/Portmanteau/categories/` holds one text file per category, in ChestSort's format, so ChestSort's files work unchanged. Files sort by the number at the start of their name. A file whose name doesn't start with a number, such as a read-me, isn't read. The name after the number, such as `tools` in `010-tools.txt`, is the category's id for presets.
 
 ```
 # A comment.

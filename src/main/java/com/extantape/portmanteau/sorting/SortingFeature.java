@@ -122,12 +122,21 @@ public final class SortingFeature implements Feature {
         List<CategoryFile> files = new ArrayList<>();
         File[] found = folder.listFiles((d, n) -> n.toLowerCase().endsWith(".txt"));
         if (found != null) {
+            List<String> skipped = new ArrayList<>();
             for (File f : found) {
+                if (!CategoryFile.isCategoryFileName(f.getName())) {
+                    skipped.add(f.getName());
+                    continue;
+                }
                 try {
                     files.add(CategoryFile.parse(f.getName(), Files.readAllLines(f.toPath(), StandardCharsets.UTF_8)));
                 } catch (IOException e) {
                     problems.add("Couldn't read category file " + f.getName() + ": " + e.getMessage());
                 }
+            }
+            if (!skipped.isEmpty()) {
+                log.info("Not category files, so not read (a category file's name starts with a number, such as 010-tools.txt): "
+                        + String.join(", ", skipped));
             }
         }
         if (files.isEmpty()) {

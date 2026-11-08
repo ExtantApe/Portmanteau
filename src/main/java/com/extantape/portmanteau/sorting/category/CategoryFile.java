@@ -46,6 +46,14 @@ public final class CategoryFile {
         this.warnings = List.copyOf(warnings);
     }
 
+    /**
+     * Whether a file name is a category file: a number, then an optional name, then {@code .txt}, such as
+     * {@code 010-tools.txt}. Anything else in the folder, such as ChestSort's read-me, is not a category.
+     */
+    public static boolean isCategoryFileName(String fileName) {
+        return FILE.matcher(fileName).matches();
+    }
+
     public static CategoryFile parse(String fileName, List<String> lines) {
         var m = FILE.matcher(fileName);
         int number = 9999;

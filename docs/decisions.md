@@ -4,6 +4,7 @@ Owner decisions for Portmanteau, newest first. Later work follows these without 
 
 | Date | Decision | Why |
 | --- | --- | --- |
+| 2026-11-08 | Confirmed: Default categories are Portmanteau's own 15 files, built from item tags and name patterns. Servers moving from ChestSort import their own files. | Clean-room: nothing copied from ChestSort's GPL files. |
 | 2026-11-08 | Confirmed: Changing trunk links changes which storage a trunk opens; old storage is kept and returns if the link is undone. No automatic merge. | A merge between players' storages is a bigger change to get right. Documented as "link groups before players use trunks". |
 | 2026-11-08 | Confirmed: Admin trunk views are read-only, and there's no restore command in 0.1. | Avoids admin views overwriting storage. A safe restore (only into an empty scope, with a confirmation) is planned. |
 | 2026-11-08 | Confirmed: Trunks open only in survival and adventure (`trunk.game-modes`). | Stops creative mode filling a survival trunk. |
@@ -24,9 +25,3 @@ Owner decisions for Portmanteau, newest first. Later work follows these without 
 | 2026-11-07 | The key recipe is the same for everyone by default. Recipes can be overridden per group, chosen from presets (`standard`, `easy`, `endgame`) or written in full. | Specialty servers, such as one with a kids' group, can make the key easier without changing everyone's. |
 
 The 2026-11-08 "Confirmed" rows were proposed by the build session for 0.1.0 and accepted by the owner as written.
-
-## Proposed by the build session, not yet confirmed
-
-| Date | Proposal | Why |
-| --- | --- | --- |
-| 2026-11-08 | Default categories are Portmanteau's own 15 files, built from item tags and name patterns. Servers moving from ChestSort import their own files. | Clean-room: nothing copied from ChestSort's GPL files. |

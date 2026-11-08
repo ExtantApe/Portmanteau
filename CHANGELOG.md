@@ -11,3 +11,5 @@ First version.
 - GriefPrevention container trust is checked when GriefPrevention is installed.
 - Cancellable `PortmanteauSortEvent`, `PortmanteauSortedEvent`, and `SortingApi` for other plugins.
 - The multiversal trunk: a Multiversal Key and a trunk to craft, 54 slots of the player's own storage per inventory group, linked groups, kids' and adults' groups never linked, storage in the player's own data with a readable admin copy, no automation in or out, and breaking it never drops what's stored.
+
+Not yet confirmed: some design choices in this version were proposed during the build and are waiting on the owner: the trunk being a lodestone underneath, the scope shown when it opens, the key being used up, trunks opening only in survival and adventure, no restore command, and links changing which storage opens. They're listed in [docs/decisions.md](docs/decisions.md) and may change in a later version.

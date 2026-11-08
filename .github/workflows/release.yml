@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Leak check
+        run: bash scripts/leak-check.sh
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Check the tag matches the version
+        run: |
+          want="${GITHUB_REF_NAME#v}"
+          have=$(grep -E '^version = ' build.gradle.kts | sed -E 's/version = "(.*)"/\1/')
+          [ "$want" = "$have" ] || { echo "Tag $GITHUB_REF_NAME doesn't match version $have in build.gradle.kts"; exit 1; }
+      - run: ./gradlew build
+      - name: Attach the jar to a GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          notes=$(awk -v v="${GITHUB_REF_NAME#v}" '$0 ~ "^## " v {f=1; next} /^## /{f=0} f' CHANGELOG.md)
+          gh release create "$GITHUB_REF_NAME" build/libs/Portmanteau-*.jar --title "Portmanteau ${GITHUB_REF_NAME#v}" --notes "${notes:-See CHANGELOG.md.}"

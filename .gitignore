@@ -1,0 +1,12 @@
+.gradle/
+build/
+run/
+.idea/
+*.iml
+.DS_Store
+.env
+.secrets/
+
+# Live tests: server jars, throwaway servers, logs and npm packages.
+test/live/work/
+test/live/node_modules/

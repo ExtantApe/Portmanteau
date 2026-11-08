@@ -1,0 +1,26 @@
+display=Mob drops
+string
+feather
+leather
+bone
+gunpowder
+slime_ball
+ender_pearl
+ender_eye
+blaze_rod
+breeze_rod
+ink_sac
+glow_ink_sac
+rabbit_hide
+*scute
+honeycomb
+egg
+*_egg
+prismarine_shard
+prismarine_crystals
+nautilus_shell
+shulker_shell
+echo_shard
+*_head
+*_skull
+heavy_core

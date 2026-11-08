@@ -1,0 +1,17 @@
+display=Music and collectibles
+music_disc_*
+disc_fragment_*
+*_pottery_sherd
+*_banner_pattern
+*_smithing_template
+goat_horn
+map
+filled_map
+paper
+writable_book
+written_book
+firework_*
+nether_star
+dragon_egg
+trial_key
+ominous_trial_key

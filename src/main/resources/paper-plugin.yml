@@ -1,0 +1,38 @@
+name: Portmanteau
+version: '${version}'
+main: com.extantape.portmanteau.PortmanteauPlugin
+api-version: '26.1'
+description: Chest and inventory sorting that checks every item survives each sort, plus a craftable multiversal trunk.
+website: https://github.com/ExtantApe/Portmanteau
+# Commands are registered with Brigadier in code, so there is no commands section.
+dependencies:
+  server:
+    # Optional. Read for the trunk's inventory groups. Must load first, with its classes visible.
+    Multiverse-Inventories:
+      load: BEFORE
+      required: false
+      join-classpath: true
+    # Optional. Sorting checks container trust in claims.
+    GriefPrevention:
+      load: BEFORE
+      required: false
+      join-classpath: true
+permissions:
+  portmanteau.sort:
+    description: Containers sort on close, and /sort opens the player setup.
+    default: true
+  portmanteau.inventory:
+    description: The player's own inventory sorts, and /isort works.
+    default: true
+  portmanteau.hotkeys:
+    description: Sorting hotkeys (shift-click, double-click, shift-right-click on an empty slot, and middle-click).
+    default: true
+  portmanteau.quicktransfer:
+    description: Quick transfer by clicking outside the window, when the server has it switched on.
+    default: true
+  portmanteau.trunk.use:
+    description: Open multiversal trunks.
+    default: true
+  portmanteau.admin:
+    description: /portmanteau status, reload, import, categories and the trunk admin commands.
+    default: op

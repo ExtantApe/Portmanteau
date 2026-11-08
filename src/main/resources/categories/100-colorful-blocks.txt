@@ -1,0 +1,11 @@
+display=Colourful blocks
+#minecraft:wool
+#minecraft:wool_carpets
+*_concrete
+*_concrete_powder
+*terracotta*
+*glass*
+#minecraft:candles
+#minecraft:beds
+#minecraft:banners
+*_dye

@@ -1,0 +1,18 @@
+display=Ores and materials
+*_ore
+raw_*
+*_ingot
+*_nugget
+coal
+charcoal
+diamond
+emerald
+quartz
+amethyst_shard
+netherite_scrap
+ancient_debris
+*_block
+flint
+copper*
+*_copper
+*amethyst*

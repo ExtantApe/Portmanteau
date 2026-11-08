@@ -1,0 +1,7 @@
+display=Transport
+#minecraft:boats
+#minecraft:chest_boats
+minecart
+*_minecart
+saddle
+*_harness

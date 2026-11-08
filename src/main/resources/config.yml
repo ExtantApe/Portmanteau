@@ -1,0 +1,137 @@
+# Portmanteau. Every option is explained in docs/config.md.
+# Run /portmanteau reload after editing. Switching a feature on or off takes a restart.
+
+features:
+  # Sorting containers and inventories.
+  sorting: true
+  # The multiversal trunk: a craftable block that opens the player's own storage across linked worlds.
+  trunk: true
+
+sorting:
+  # When containers sort themselves, as the player closes them.
+  #   forced       always; players can't turn it off
+  #   default-on   on, and players may turn it off in /sort
+  #   default-off  off, and players may turn it on in /sort
+  #   off          never by itself (hotkeys and /isort still work)
+  containers: default-on
+  # The same for the player's own inventory, when they close it or a container.
+  inventory: default-on
+  # Whether the hotbar sorts along with the rest of the inventory, unless a player chooses otherwise.
+  hotbar-by-default: false
+
+  # How much players may choose for themselves in /sort, from 0 to 100. Each level includes the ones below it.
+  #   0    nothing; the server decides everything
+  #   25   turn chest and inventory sorting on or off (only where the mode above isn't forced or off)
+  #   50   pick one order preset for everything
+  #   75   pick a preset for chests, inventory and hotbar separately, and whether the hotbar sorts
+  #   100  also put up to three categories first in each, and turn each hotkey on or off
+  player-choices: 100
+
+  # The server's sorting order, in ChestSort's format. Parts: {category} {keepCategoryOrder} {itemsFirst}
+  # {blocksFirst} {tier} {name} {color} {customName} {lore}
+  method: "{category},{itemsFirst},{name},{color},{customName}"
+
+  # Orders players can pick. "first" lists category names (the file name without its number) to put first.
+  # The "server" preset always exists and uses the method above.
+  default-preset: server
+  presets:
+    tools-first:
+      name: "Tools, weapons and armour first"
+      first: [tools, weapons, armor]
+    blocks-first:
+      name: "Building blocks first"
+      first: [wood, stone-and-building, colorful-blocks]
+    food-first:
+      name: "Food first"
+      first: [food]
+    a-to-z:
+      name: "A to Z, by item name"
+      method: "{name},{color},{customName}"
+
+  hotkeys:
+    # Middle-click any slot. Outside creative only, where it copies items. Many mice and trackpads have no middle
+    # button, and the game may not send it in survival at all, so the others are the main hotkeys.
+    middle-click: true
+    # Shift-click, double-click or shift-right-click an empty slot, with nothing on the cursor.
+    shift-click: true
+    double-click: true
+    shift-right-click: true
+    cooldown-ms: 200
+
+  # Left-click outside the window to put items of kinds the container already holds into it; right-click to take
+  # them out. The hotbar never moves.
+  quick-transfer: false
+
+  # Worlds where nothing sorts.
+  disabled-worlds: []
+
+  # Only real vanilla containers sort: chests, barrels, placed shulker boxes, the player's ender chest, donkeys, mules
+  # and llamas, chest boats and minecarts, and the multiversal trunk. Another plugin's screen never sorts unless its
+  # inventory holder's class name is listed here.
+  allowed-holders: []
+
+  # Check claim trust (GriefPrevention) before sorting a placed container.
+  claims: true
+
+trunk:
+  # Where inventory groups come from.
+  #   auto                    Multiverse-Inventories if it's installed, otherwise the groups below
+  #   multiverse-inventories  only Multiverse-Inventories; if it isn't running, trunks stay shut
+  #   config                  only the groups below
+  # Only groups that share the player's inventory count. A world in no group has a trunk storage of its own.
+  # A world in more than one group keeps its trunks shut, rather than guess.
+  groups-from: auto
+  groups: {}
+  #   survival: [survival, survival_nether, survival_the_end]
+
+  # Which audience each group or world is for: kids, adults or mixed. Kids' and adults' groups can never share
+  # a trunk, whatever "links" says, and a group with no label, or with both kids' and adults' worlds, can't be
+  # linked at all. If any link breaks these rules, no links are used and the console says why.
+  audiences:
+    groups: {}
+    #   survival: adults
+    worlds: {}
+
+  # Groups whose trunks share one storage, as pairs. Each group always shares within itself.
+  links: []
+  #   - [survival, creative_survival]
+
+  # Names shown to players for groups or worlds, such as "Linked to: Survival".
+  names: {}
+
+  # Trunks open only in these game modes, so creative mode can't fill a survival trunk.
+  game-modes: [survival, adventure]
+
+  recipes:
+    # Presets: standard, easy or endgame. Or the name of a recipe under "custom".
+    #   key, standard: an eye of ender above a recovery compass
+    #   key, easy:     an ender pearl above a compass
+    #   key, endgame:  a nether star above an eye of ender, recovery compass and eye of ender
+    #   trunk, standard: the key above an ender chest above a chest (the key is used up)
+    #   trunk, easy:     the key above a chest
+    #   trunk, endgame:  the key above an ender chest above a shulker box
+    key: standard
+    trunk: standard
+    custom: {}
+    #   my-key:
+    #     shape: ["E", "R"]
+    #     ingredients: {E: minecraft:ender_eye, R: minecraft:recovery_compass}
+    #   my-trunk:
+    #     shape: ["K", "B"]
+    #     ingredients: {K: portmanteau:multiversal_key, B: minecraft:barrel}
+    # Different recipes in some groups, such as an easier key for a kids' group.
+    groups: {}
+    #   kids_survival:
+    #     key: easy
+
+  look:
+    # Item models from the server's resource pack. Leave empty without a pack: the trunk then shows as a
+    # glinting lodestone.
+    trunk-item-model: ""
+    key-item-model: ""
+    block-model: ""
+    sound: "minecraft:block.ender_chest.open"
+    particle: "minecraft:portal"
+
+  # Write a readable copy of each trunk to plugins/Portmanteau/trunk-copies after every save, for admins.
+  admin-copies: true

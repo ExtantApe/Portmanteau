@@ -1,0 +1,10 @@
+display=Armour
+#minecraft:head_armor
+#minecraft:chest_armor
+#minecraft:leg_armor
+#minecraft:foot_armor
+turtle_helmet
+elytra
+*_horse_armor
+wolf_armor
+*_nautilus_armor

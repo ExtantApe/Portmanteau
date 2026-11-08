@@ -1,0 +1,26 @@
+display=Stone and building
+#minecraft:stone_bricks
+stone
+smooth_stone
+*sandstone*
+*stone_brick*
+*cobblestone*
+end_stone*
+*deepslate*
+*brick*
+*tuff*
+*blackstone*
+*basalt*
+*granite*
+*diorite*
+*andesite*
+*prismarine*
+*purpur*
+*quartz_block*
+*_slab
+*_stairs
+*_wall
+calcite
+obsidian
+crying_obsidian
+netherrack

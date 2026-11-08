@@ -1,0 +1,20 @@
+display=Potions and enchanting
+potion
+splash_potion
+lingering_potion
+ominous_bottle
+experience_bottle
+glass_bottle
+enchanted_book
+book
+lapis_lazuli
+blaze_powder
+nether_wart
+fermented_spider_eye
+glistering_melon_slice
+magma_cream
+ghast_tear
+dragon_breath
+rabbit_foot
+phantom_membrane
+totem_of_undying

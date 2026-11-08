@@ -1,0 +1,12 @@
+display=Weapons
+#minecraft:swords
+*_spear
+bow
+crossbow
+trident
+mace
+shield
+arrow
+spectral_arrow
+tipped_arrow
+wind_charge

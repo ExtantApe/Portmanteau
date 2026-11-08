@@ -63,7 +63,9 @@ export class Server {
     this.plugins = [...viaPlugins(version), ...plugins]
     this.config = config
     this.mvGroups = mvGroups
-    this.jvm = jvm
+    // ViaBackwards can't load its mappings next to Multiverse under Paper's newer plugin loader (a class loader
+    // conflict between the two Via jars), so test servers that need Via use the legacy loader.
+    this.jvm = viaPlugins(version).length && plugins.length ? ['-Dpaper.useLegacyPluginLoading=true', ...jvm] : jvm
     this.dir = path.join(os.tmpdir(), `portmanteau-live-${version}-${tag}-${process.pid}`)
     this.lines = []
     this.waiters = []

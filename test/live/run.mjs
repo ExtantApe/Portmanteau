@@ -23,6 +23,11 @@ try {
   suites.switches = () => switchesSuite(version)
 } catch {}
 
+try {
+  const { claimsSuite } = await import('./claims.mjs')
+  suites.claims = () => claimsSuite(version)
+} catch {}
+
 let failed = 0
 for (const n of names) {
   if (!suites[n]) { console.log(`No suite ${n}`); failed++; continue }

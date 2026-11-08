@@ -9,3 +9,7 @@ dependencies:
       load: BEFORE
       required: true
       join-classpath: true
+    GriefPrevention:
+      load: BEFORE
+      required: false
+      join-classpath: true

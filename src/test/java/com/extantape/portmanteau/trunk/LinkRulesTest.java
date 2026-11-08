@@ -16,7 +16,7 @@ class LinkRulesTest {
             "kids_b", Set.of("kb1"),
             "adults_a", Set.of("aa1"),
             "adults_b", Set.of("ab1"),
-            "magic", Set.of("m_kids", "m_adults"),
+            "both_ages", Set.of("m_kids", "m_adults"),
             "plain", Set.of("p1"));
     private static final Map<String, Audience> GROUP_LABELS = Map.of(
             "kids_a", Audience.KIDS, "kids_b", Audience.KIDS, "adults_a", Audience.ADULTS, "adults_b", Audience.ADULTS);
@@ -68,11 +68,11 @@ class LinkRulesTest {
     @Test
     void aMixedGroupCantBeLinkedEvenIfLabelledOneWay() {
         var labels = new java.util.HashMap<>(GROUP_LABELS);
-        labels.put("magic", Audience.ADULTS);
-        var r = LinkRules.resolve(GROUPS, labels, WORLD_LABELS, List.of(new Link("magic", "adults_a")));
-        assertEquals(Audience.MIXED, LinkRules.audience("magic", GROUPS.get("magic"), labels, WORLD_LABELS));
+        labels.put("both_ages", Audience.ADULTS);
+        var r = LinkRules.resolve(GROUPS, labels, WORLD_LABELS, List.of(new Link("both_ages", "adults_a")));
+        assertEquals(Audience.MIXED, LinkRules.audience("both_ages", GROUPS.get("both_ages"), labels, WORLD_LABELS));
         assertFalse(r.errors().isEmpty());
-        assertNotEquals(r.scopeOf("magic"), r.scopeOf("adults_a"));
+        assertNotEquals(r.scopeOf("both_ages"), r.scopeOf("adults_a"));
     }
 
     @Test

@@ -292,6 +292,10 @@ public final class Helper extends JavaPlugin implements Listener {
                 if (e.isCancelled()) b.setBlockData(replaced.getBlockData(), false);
                 yield obj("placed", !e.isCancelled());
             }
+            case "claim" -> Claims.claim(player(a[2]), Bukkit.getWorld(a[3]), Integer.parseInt(a[4]), Integer.parseInt(a[5]),
+                    Integer.parseInt(a[6]), Integer.parseInt(a[7]));
+            case "trust" -> Claims.trust(Bukkit.getWorld(a[2]), Integer.parseInt(a[3]), Integer.parseInt(a[4]), player(a[5]));
+            case "ignoreclaims" -> Claims.ignore(player(a[2]), Boolean.parseBoolean(a[3]));
             case "uuid" -> obj("uuid", player(a[2]).getUniqueId().toString());
             case "workbench" -> {
                 player(a[2]).openWorkbench(null, true);

@@ -6,7 +6,7 @@ Fixes to `/portmanteau import chestsort`, found by trying it on a copy of a real
 
 - Only files whose name starts with a number are copied as categories. ChestSort's read-me used to become an empty 13th category, with warnings on every reload. Anything left out is named in one line of the report. The category folder skips such files too, with one line in the console.
 - After an import, the presets are fitted to the new categories: names that no longer exist are taken out of each preset, a preset left with nothing to do is removed, and if it was the default, the default goes back to `server`. The report lists each change. Before, every reload warned about the missing names.
-- The import saves `config.yml` keeping its comments, through a temporary file and a rename. Comment loss was seen on one server but couldn't be reproduced on a stock config, so the cause there isn't known; tests now check that every comment survives the import.
+- The import saves `config.yml` through a temporary file and a rename, so it's never left half written, and tests now check that every comment survives the import. (A report that the import dropped comments turned out to be a mistake in the test that made it: comments were always kept. Saving does still rewrite short lists like `[tools, weapons]` one item per line, and quote the method in single quotes. That's only how the file looks.)
 - Owner decisions confirmed on 2026-11-08: all six of 0.1.0's proposed design choices, and sorting staying forced on the owner's servers. See [docs/decisions.md](docs/decisions.md).
 
 ## 0.1.0

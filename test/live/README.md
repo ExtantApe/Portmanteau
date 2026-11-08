@@ -11,7 +11,7 @@ Each suite builds one throwaway server in a new folder in the temp directory, li
 - **Through ViaBackwards (26.2, 26.3):** the bots' right-clicks on blocks don't reach the server, and their movement packets come out as moves the server rejects. So there the bots send no movement, the server opens containers for them, and the helper fires the same interact event Paper fires for a right-click on a trunk. Clicks inside windows are real on every version. On 26.1.2 the bots right-click for real.
 - **Plugin loading:** ViaBackwards can't load its mappings beside Multiverse under Paper's newer plugin loader, so test servers that need both use `-Dpaper.useLegacyPluginLoading=true`. This is a clash between those test plugins, not part of Portmanteau.
 - **Stand-ins:** other plugins' menus, graves, previews and a shulker box opened from an item are made by the helper plugin, not by Magic, Citizens, BetonQuest, Lantern Graves or any real plugin.
-- **Not covered:** the `/sort` dialog's layout and buttons (a bot can't click them), CoreProtect rollbacks, copper golems, hopper minecarts and droppers.
+- **Not covered:** the `/sort` dialog's layout and buttons (a bot can't click them), and whether a copper golem ever tries to use a trunk (the test only shows nothing moved in 30 seconds).
 
 ## Setting up
 
@@ -35,10 +35,11 @@ node run.mjs 26.3 sorting trunk crash   # some suites on one version
 | --- | --- |
 | `sorting` | Every container type, places that must never sort, the four hotkeys and the cooldown, a hopper, two viewers, the cursor, a half-finished drag, a spoiled write, quick transfer, `/isort`, the config modes, every item in the registry, a 3,000-round fuzz, and 20 bots for a minute. |
 | `sorting-solo` | The same with the trunk switched off. |
-| `trunk` | Recipes and per-group overrides, linking, kids and adults, per-player storage, breaking, hoppers and comparators, teleport, death and disconnect with a trunk open, damaged data, the admin copy, a read-only admin view, a spoiled save, and a 2,000-round fuzz. |
+| `trunk` | Recipes and per-group overrides, linking, kids and adults, per-player storage, breaking, hoppers, comparators, a hopper minecart, a dropper and a copper golem, a trunk item in a bundle, shelf, fox and grave, teleport, death and disconnect with a trunk open, damaged data, the admin copy, a read-only admin view, a spoiled save, and a 2,000-round fuzz. |
 | `trunk-solo` | The same with sorting switched off. |
 | `crash` | `kill -9` at several moments after moving items into a trunk, with players saved every tick, and a stop mid-move; then every item counted. Also a crash after sorting and a Multiverse-Inventories teleport with a chest open. |
 | `claims` | GriefPrevention container trust: the owner and trusted players sort a claimed chest; a stranger and an admin in `/ignoreclaims` don't. Skipped where Modrinth has no GriefPrevention build for that version. |
+| `coreprotect` | A sort, then CoreProtect's rollback and restore: counts match every time. Skipped where Modrinth has no CoreProtect build for that version. |
 | `switches` | Each feature off leaves nothing running; the trunk off and on again keeps storage. |
 
 Each suite prints a line per check and writes `work/results-<suite>-<version>.json`. Server logs go to `work/logs/`.

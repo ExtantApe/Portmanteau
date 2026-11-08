@@ -186,6 +186,29 @@ export async function trunkSuite(version, { sorting = true } = {}) {
       r.check('a comparator reads nothing', power.power === 0, `power ${power.power}`)
     })
 
+    await r.run('automation: hopper minecart, dropper and copper golem', async () => {
+      await place(s, 'Alex', 'world', -8, Y + 1, 4)
+      const before = await s.pmt('ledger', 'trunk', 'Alex', scope('adults_a'))
+      const { cart } = await s.pmt('automation', 'world', -8, Y + 1, 4)
+      await sleep(30_000)
+      const after = await s.pmt('ledger', 'trunk', 'Alex', scope('adults_a'))
+      const inCart = await s.pmt('cartitems', cart)
+      // The dropper can't put its diamonds into the trunk, so it spits them onto the ground, where the hopper minecart
+      // may pick them up, as in vanilla. Nothing of the trunk's own may reach the cart.
+      const fromTrunk = Object.keys(inCart).filter(k => k !== 'diamond' && k !== 'iron_ingot')
+      r.check('automation: a hopper minecart, a dropper and a copper golem move nothing in or out', after.ledger === before.ledger && fromTrunk.length === 0,
+        `30 seconds side by side; trunk unchanged; the cart holds ${JSON.stringify(inCart)} (the dropper's own diamonds, from the ground). Whether the golem tried anything isn't observed`)
+    })
+    await r.run('trunk items stashed in a bundle, a shelf, a fox and a grave', async () => {
+      for (let i = 0; i < 5; i++) await s.run('portmanteau trunk give Alex trunk', 150)
+      const before = await s.pmt('ledger', 'trunk', 'Alex', scope('adults_a'))
+      const out = await s.pmt('stash', 'Alex', 'world', -8, Y, -4)
+      await sleep(1000)
+      const after = await s.pmt('ledger', 'trunk', 'Alex', scope('adults_a'))
+      r.check('a trunk item in a bundle, a shelf, a fox\'s mouth or a grave changes no storage', !out.itemCarriesStorage && after.ledger === before.ledger,
+        'the trunk item carries no container or bundle contents of its own')
+    })
+
     // --- breaking ---
     await r.run('breaking', async () => {
       const before = await s.pmt('ledger', 'trunk', 'Alex', scope('adults_a'))

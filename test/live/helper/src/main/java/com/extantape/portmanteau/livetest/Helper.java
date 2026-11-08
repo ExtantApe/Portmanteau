@@ -296,6 +296,52 @@ public final class Helper extends JavaPlugin implements Listener {
                     Integer.parseInt(a[6]), Integer.parseInt(a[7]));
             case "trust" -> Claims.trust(Bukkit.getWorld(a[2]), Integer.parseInt(a[3]), Integer.parseInt(a[4]), player(a[5]));
             case "ignoreclaims" -> Claims.ignore(player(a[2]), Boolean.parseBoolean(a[3]));
+            case "stash" -> {
+                // Puts real trunk items where item-backed storage gets duplicated in other plugins: a bundle, a shelf,
+                // a fox's mouth and a grave. The trunk item holds nothing, so none of this may touch anyone's storage.
+                Player p = player(a[2]);
+                Block b = block(a, 3);
+                ItemStack bundle = new ItemStack(Material.BUNDLE);
+                bundle.setData(DataComponentTypes.BUNDLE_CONTENTS, BundleContents.bundleContents(List.of(giveViaCommand("trunk", p))));
+                p.getInventory().addItem(bundle);
+                b.setType(Material.OAK_SHELF, false);
+                ((org.bukkit.block.Shelf) b.getState(false)).getInventory().setItem(0, giveViaCommand("trunk", p));
+                var fox = b.getWorld().spawn(b.getLocation().add(2.5, 0, 0.5), org.bukkit.entity.Fox.class);
+                fox.getEquipment().setItemInMainHand(giveViaCommand("trunk", p));
+                Inventory grave = Bukkit.createInventory(new GraveHolder(), 9);
+                grave.addItem(giveViaCommand("trunk", p));
+                guis.put("stash-grave", grave);
+                // What a trunk item carries: no container, bundle or other storage of its own.
+                ItemStack sample = giveViaCommand("trunk", p);
+                boolean carries = sample.hasData(DataComponentTypes.CONTAINER) || sample.hasData(DataComponentTypes.BUNDLE_CONTENTS);
+                yield obj("stashed", 4, "itemCarriesStorage", carries);
+            }
+            case "automation" -> {
+                // A hopper minecart under a trunk, a dropper firing at it, and a copper golem by a copper chest next to it.
+                Block trunk = block(a, 2);
+                World w = trunk.getWorld();
+                Block rail = trunk.getRelative(BlockFace.DOWN);
+                rail.setType(Material.RAIL, false);
+                var cart = w.spawn(rail.getLocation().add(0.5, 0, 0.5), org.bukkit.entity.minecart.HopperMinecart.class);
+                Block dropper = trunk.getRelative(BlockFace.EAST);
+                dropper.setType(Material.DROPPER, false);
+                var data = (org.bukkit.block.data.Directional) dropper.getBlockData();
+                data.setFacing(BlockFace.WEST);
+                dropper.setBlockData(data, false);
+                ((org.bukkit.block.Dropper) dropper.getState(false)).getInventory().addItem(new ItemStack(Material.DIAMOND, 8));
+                dropper.getRelative(BlockFace.EAST).setType(Material.REDSTONE_BLOCK, true);
+                Block copperChest = trunk.getRelative(BlockFace.WEST, 2);
+                copperChest.setType(Material.COPPER_CHEST, false);
+                ((Container) copperChest.getState(false)).getInventory().addItem(new ItemStack(Material.IRON_INGOT, 16));
+                var golem = w.spawnEntity(trunk.getLocation().add(-1.5, 0, 1.5), EntityType.COPPER_GOLEM);
+                yield obj("cart", cart.getUniqueId().toString(), "golem", golem.getUniqueId().toString());
+            }
+            case "cartitems" -> {
+                var cart = (org.bukkit.entity.minecart.HopperMinecart) Bukkit.getEntity(UUID.fromString(a[2]));
+                Map<String, Integer> kinds = new TreeMap<>();
+                for (ItemStack i : cart.getInventory().getContents()) if (i != null && !i.isEmpty()) kinds.merge(i.getType().getKey().getKey(), i.getAmount(), Integer::sum);
+                yield json(kinds);
+            }
             case "uuid" -> obj("uuid", player(a[2]).getUniqueId().toString());
             case "workbench" -> {
                 player(a[2]).openWorkbench(null, true);

@@ -28,6 +28,11 @@ try {
   suites.claims = () => claimsSuite(version)
 } catch {}
 
+try {
+  const { coreprotectSuite } = await import('./coreprotect.mjs')
+  suites.coreprotect = () => coreprotectSuite(version)
+} catch {}
+
 let failed = 0
 for (const n of names) {
   if (!suites[n]) { console.log(`No suite ${n}`); failed++; continue }

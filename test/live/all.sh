@@ -3,6 +3,6 @@
 cd "$(dirname "$0")"
 status=0
 for v in ${PMT_VERSIONS:-26.3 26.2 26.1.2}; do
-  node run.mjs "$v" sorting sorting-solo trunk trunk-solo crash switches || status=1
+  node run.mjs "$v" sorting sorting-solo trunk trunk-solo crash switches claims coreprotect || status=1
 done
 exit $status

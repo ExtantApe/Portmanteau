@@ -59,6 +59,28 @@ public final class SortingFeature implements Feature {
         listeners = new SortListeners(plugin, this, messages);
         dialog = new SetupDialog(plugin, this, messages);
         Bukkit.getPluginManager().registerEvents(listeners, plugin);
+        com.extantape.portmanteau.sorting.api.SortingApi.install((inv, player) -> {
+            ContainerGate.Target target;
+            if (inv instanceof org.bukkit.inventory.PlayerInventory) {
+                target = new ContainerGate.Target(ContainerGate.Kind.PLAYER, inv, java.util.Set.of(), null);
+            } else if (inv.getHolder(false) instanceof org.bukkit.entity.ChestedHorse) {
+                target = new ContainerGate.Target(ContainerGate.Kind.ALLOWED, inv, java.util.Set.of(0, 1), null);
+            } else if (java.util.EnumSet.of(org.bukkit.event.inventory.InventoryType.CHEST, org.bukkit.event.inventory.InventoryType.BARREL,
+                    org.bukkit.event.inventory.InventoryType.SHULKER_BOX, org.bukkit.event.inventory.InventoryType.ENDER_CHEST).contains(inv.getType())) {
+                target = new ContainerGate.Target(ContainerGate.Kind.ALLOWED, inv, java.util.Set.of(), null);
+            } else {
+                // Furnaces, brewing stands and the like have slots with rules. Plain storage only.
+                return com.extantape.portmanteau.sorting.api.SortingApi.Result.NOT_ALLOWED;
+            }
+            var o = sorter.sort(player, target, com.extantape.portmanteau.sorting.api.SortReason.API, Sorter.Part.BOTH);
+            return switch (o.status()) {
+                case SORTED -> com.extantape.portmanteau.sorting.api.SortingApi.Result.SORTED;
+                case ALREADY_SORTED -> com.extantape.portmanteau.sorting.api.SortingApi.Result.ALREADY_SORTED;
+                case LEFT_SAFE -> com.extantape.portmanteau.sorting.api.SortingApi.Result.LEFT_UNCHANGED;
+                case FAILED -> com.extantape.portmanteau.sorting.api.SortingApi.Result.FAILED;
+                case NOT_ALLOWED -> com.extantape.portmanteau.sorting.api.SortingApi.Result.NOT_ALLOWED;
+            };
+        });
         for (String p : problems) log.warning(p);
         log.info("Sorting is ready: " + facts.items() + " items in " + facts.categories().size() + " categories.");
     }
@@ -123,6 +145,7 @@ public final class SortingFeature implements Feature {
 
     @Override
     public void stop() {
+        com.extantape.portmanteau.sorting.api.SortingApi.install(null);
         if (listeners != null) HandlerList.unregisterAll(listeners);
         listeners = null;
     }

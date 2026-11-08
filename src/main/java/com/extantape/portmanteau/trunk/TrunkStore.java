@@ -92,6 +92,9 @@ public final class TrunkStore {
             }
 
             @Override public void set(byte[] bytes) {
+                if (bytes != null && com.extantape.portmanteau.transaction.TestFaults.take("portmanteau.test.break-trunk-saves")) {
+                    bytes = serialize(new ItemStack[SLOTS]);
+                }
                 PersistentDataContainer all = pdc.get(root, PersistentDataType.TAG_CONTAINER);
                 if (all == null) all = pdc.getAdapterContext().newPersistentDataContainer();
                 if (bytes == null) {

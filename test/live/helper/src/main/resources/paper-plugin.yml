@@ -1,0 +1,11 @@
+# Test-only. Never install this on a real server.
+name: PortmanteauLiveTestHelper
+version: '0.0.0'
+main: com.extantape.portmanteau.livetest.Helper
+api-version: '26.1'
+dependencies:
+  server:
+    Portmanteau:
+      load: BEFORE
+      required: true
+      join-classpath: true

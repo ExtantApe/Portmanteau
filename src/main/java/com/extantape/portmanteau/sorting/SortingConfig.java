@@ -71,8 +71,8 @@ public record SortingConfig(
     public static SortingConfig read(ConfigurationSection s) {
         if (s == null) s = new MemoryConfiguration();
         List<String> problems = new ArrayList<>();
-        Mode containers = Mode.parse(s.getString("containers"), Mode.DEFAULT_ON, "sorting.containers", problems);
-        Mode inventory = Mode.parse(s.getString("inventory"), Mode.DEFAULT_ON, "sorting.inventory", problems);
+        Mode containers = Mode.parse(modeText(s.get("containers")), Mode.DEFAULT_ON, "sorting.containers", problems);
+        Mode inventory = Mode.parse(modeText(s.get("inventory")), Mode.DEFAULT_ON, "sorting.inventory", problems);
 
         int choices = readChoices(s.get("player-choices", CHOICES_ALL), problems);
 
@@ -112,6 +112,12 @@ public record SortingConfig(
                 Map.copyOf(presets), defaultPreset, hotkeys, s.getBoolean("quick-transfer", false),
                 Set.copyOf(s.getStringList("disabled-worlds")), Set.copyOf(s.getStringList("allowed-holders")),
                 s.getBoolean("claims", true), List.copyOf(problems));
+    }
+
+    /** YAML reads a bare off as false and on as true, so those mean off and default-on. */
+    private static String modeText(Object value) {
+        if (value instanceof Boolean b) return b ? "default-on" : "off";
+        return value == null ? null : String.valueOf(value);
     }
 
     private static int readChoices(Object value, List<String> problems) {

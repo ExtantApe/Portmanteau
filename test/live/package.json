@@ -1,0 +1,9 @@
+{
+  "name": "portmanteau-live-tests",
+  "private": true,
+  "type": "module",
+  "description": "Live tests for Portmanteau on throwaway local Paper servers. See README.md.",
+  "dependencies": {
+    "mineflayer": "^4.39.0"
+  }
+}

@@ -23,6 +23,12 @@ final class InventoryStore implements SlotStore<ItemStack> {
 
     @Override
     public void write(ItemStack[] contents) {
+        if (com.extantape.portmanteau.transaction.TestFaults.take("portmanteau.test.break-writes")) {
+            contents = contents.clone();
+            for (int i = contents.length - 1; i >= 0; i--) {
+                if (contents[i] != null && !contents[i].isEmpty()) { contents[i] = null; break; }
+            }
+        }
         if (storageOnly) inventory.setStorageContents(contents);
         else inventory.setContents(contents);
     }

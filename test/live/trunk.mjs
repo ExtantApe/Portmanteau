@@ -361,6 +361,15 @@ export async function trunkSuite(version, { sorting = true } = {}) {
     })
     await r.run('admin view is read-only', async () => {
       const admin = await bot(s, 'Morgan')
+      // Access first: without portmanteau.admin, someone else's trunk can't be viewed and nothing can be given.
+      await s.pmt('op', 'Morgan', false)
+      await s.pmt('tp', 'Morgan', 'world', 0, Y, -1); await sleep(500)
+      const peek = nextWindow(admin, 2500).then(() => true, () => false)
+      admin.chat('/portmanteau trunk view Alex'); await sleep(300)
+      admin.chat('/portmanteau trunk give Morgan trunk 3'); await sleep(1200)
+      const opened = await peek
+      const given = await s.pmt('ledger', 'player', 'Morgan')
+      r.check('without portmanteau.admin, trunk view and trunk give are refused', !opened && given.items === 0, opened ? 'a window opened' : given.items + ' items given')
       await s.pmt('op', 'Morgan', true)
       await s.pmt('tp', 'Morgan', 'world', 0, Y, -1); await sleep(500)
       const before = await s.pmt('ledger', 'trunk', 'Alex', scope('adults_a'))

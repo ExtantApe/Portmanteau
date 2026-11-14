@@ -24,7 +24,7 @@ import java.util.Set;
 final class QuickTransfer {
     private QuickTransfer() {}
 
-    static Sorter.Outcome move(Plugin plugin, Player p, Target container, boolean intoContainer, SortingConfig config) {
+    static Sorter.Outcome move(Plugin plugin, Player p, Target container, boolean intoContainer, SortingConfig config, PrismItems prism) {
         if (config.disabledWorlds().contains(p.getWorld().getName())) return new Sorter.Outcome(Sorter.Status.NOT_ALLOWED, 0, "world");
         PortmanteauSortEvent event = new PortmanteauSortEvent(p, container.inventory(), SortReason.QUICK_TRANSFER);
         Bukkit.getPluginManager().callEvent(event);
@@ -60,6 +60,7 @@ final class QuickTransfer {
         };
 
         StackCodec codec = new StackCodec();
+        ItemStack[] before = prism.active() ? chest.getContents() : null;
         long[] moved = {0};
         var result = Transaction.apply(both, codec, s -> {
             int fromStart = intoContainer ? n + 9 : 0, fromEnd = intoContainer ? n + 36 : n;
@@ -95,6 +96,9 @@ final class QuickTransfer {
             }
             return s;
         }, fixed, plugin.getLogger());
+        // Recorded only once the transaction has stuck, so Prism never shows a move that was rolled back.
+        if (before != null && result.outcome() == Transaction.Outcome.CHANGED)
+            prism.record(p, container.where(), PrismItems.changes(before, chest.getContents()));
         return switch (result.outcome()) {
             case CHANGED -> new Sorter.Outcome(Sorter.Status.SORTED, moved[0], null);
             case UNCHANGED -> new Sorter.Outcome(Sorter.Status.ALREADY_SORTED, 0, null);

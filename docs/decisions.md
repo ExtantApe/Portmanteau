@@ -25,3 +25,5 @@ Owner decisions for Portmanteau, newest first. Later work follows these without 
 | 2026-11-07 | The key recipe is the same for everyone by default. Recipes can be overridden per group, chosen from presets (`standard`, `easy`, `endgame`) or written in full. | Specialty servers, such as one with a kids' group, can make the key easier without changing everyone's. |
 
 The 2026-11-08 "Confirmed" rows were proposed by the build session for 0.1.0 and accepted by the owner as written.
+
+**2026-11-14, Prism (D168, K599):** Prism replaces CoreProtect on the owner's servers, and plugins that move items for players log to it. Portmanteau records quick transfers as item-insert and item-remove at the container, as the player's. Sorting moves nothing in or out, so it isn't recorded.

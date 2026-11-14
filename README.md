@@ -14,7 +14,7 @@ Chest and inventory sorting for Paper that checks every item survives each sort,
 - `/isort` sorts your inventory. `/isort hotbar` sorts just the hotbar, `/isort all` both.
 - `/sort` opens a short setup screen. Depending on what the server allows, you can turn sorting on or off, pick an order for chests, your inventory and your hotbar, put up to three kinds of items first, and choose your hotkeys.
 - Admins decide how much players may change, from nothing to everything (`player-choices`, 0 to 100), and whether sorting is `forced`, `default-on`, `default-off` or `off`, separately for containers and inventories.
-- Quick transfer, off unless an admin turns it on: click outside the window to move items the container already holds into it, or right-click to take them out. The hotbar never moves.
+- Quick transfer, off unless an admin turns it on: click outside the window to move items the container already holds into it, or right-click to take them out. The hotbar never moves. With Prism installed, each transfer is recorded there as the player's item-insert or item-remove.
 
 ### Never losing an item
 

@@ -40,6 +40,7 @@ public final class SortingFeature implements Feature {
     private Sorter sorter;
     private SortListeners listeners;
     private SetupDialog dialog;
+    private PrismItems prism;
 
     public SortingFeature(JavaPlugin plugin, Messages messages) {
         this.plugin = plugin;
@@ -55,6 +56,7 @@ public final class SortingFeature implements Feature {
             claims = new GriefPreventionCheck();
             log.info("Sorting checks GriefPrevention container trust.");
         }
+        prism = new PrismItems(log);
         sorter = new Sorter(plugin, facts, config, claims);
         listeners = new SortListeners(plugin, this, messages);
         dialog = new SetupDialog(plugin, this, messages);
@@ -151,6 +153,9 @@ public final class SortingFeature implements Feature {
         }
         return files;
     }
+
+    /** Prism, when it's installed, for recording quick transfers. */
+    PrismItems prism() { return prism; }
 
     @Override
     public void stop() {

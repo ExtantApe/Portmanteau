@@ -159,7 +159,7 @@ final class SortListeners implements Listener {
                 messages.actionBar(p, "sort.not-here");
                 return;
             }
-            var o = QuickTransfer.move(plugin, p, again, intoContainer, feature.config());
+            var o = QuickTransfer.move(plugin, p, again, intoContainer, feature.config(), feature.prism());
             if (o.status() == Sorter.Status.SORTED) {
                 messages.actionBar(p, intoContainer ? "quick-transfer.in" : "quick-transfer.out",
                         Placeholder.unparsed("count", Long.toString(o.items())));

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2
+
+- **Quick transfers are recorded in Prism** (4.4 and up) when it's installed, as item-insert and item-remove by the player at the container. Each kind of item gets one record with the count moved, and only once the transfer has stuck. A sort moves nothing in or out, so it isn't recorded. Portmanteau finds Prism by itself, doesn't need it, and says once if it can't reach Prism's API. Prism replaced CoreProtect on the owner's servers (D168).
+- Tested with bots on throwaway Paper 26.1.2 and 26.3 servers with Prism 4.5: both directions were recorded with the right counts and the player's name, and nothing else at the chest.
+
 ## 0.1.1
 
 Fixes to `/portmanteau import chestsort`, found by trying it on a copy of a real ChestSort setup.

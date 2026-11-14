@@ -1,6 +1,6 @@
 // Runs live test suites, one server at a time. Usage: node run.mjs <minecraft-version> <suite> [suite ...]
 // Suites: sorting, sorting-solo (trunk switched off), trunk, trunk-solo (sorting switched off), crash, switches,
-// claims, coreprotect, import
+// claims, coreprotect, prism, import
 import { saveResults, freeGb } from './lib.mjs'
 import { sortingSuite } from './sorting.mjs'
 
@@ -32,6 +32,11 @@ try {
 try {
   const { coreprotectSuite } = await import('./coreprotect.mjs')
   suites.coreprotect = () => coreprotectSuite(version)
+} catch {}
+
+try {
+  const { prismSuite } = await import('./prism.mjs')
+  suites.prism = () => prismSuite(version)
 } catch {}
 
 try {

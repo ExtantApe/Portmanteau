@@ -2,6 +2,12 @@
 
 Kept by this repo's owning session (Minecraft: Plugins Lead), per `~/Code/CLAUDE.md`, "Test self-audits". Newest first.
 
+
+## 2026-11-14, for 0.1.2 (Prism)
+
+- **Covered:** quick transfers in both directions are recorded in Prism with the right counts and the player's name, and nothing else is recorded at the chest. Live suite `prism` on 26.1.2 and 26.3, 4 of 4 each.
+- **Skipped, with why:** a Prism that doesn't match. The reflection pattern is the same as PaulBunyan's, which is unit-tested there, and a mismatch only means nothing is recorded. Also skipped: the trunk, which has no place in the world, so transfers from it aren't recorded.
+
 ## 2026-11-10: first full audit (at 0.1.1)
 
 What Portmanteau promises (README, `docs/decisions.md`, `docs/trunk-copies.md`), and what proves it. "Unit" is `src/test`; the live suites are in `test/live` (see its README for what's real and what's a stand-in), run on throwaway Paper 26.1.2, 26.2 and 26.3 servers.

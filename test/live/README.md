@@ -39,6 +39,7 @@ node run.mjs 26.3 sorting trunk crash   # some suites on one version
 | `trunk-solo` | The same with sorting switched off. |
 | `crash` | `kill -9` at several moments after moving items into a trunk, with players saved every tick, and a stop mid-move; then every item counted. Also a crash after sorting and a Multiverse-Inventories teleport with a chest open. |
 | `claims` | GriefPrevention container trust: the owner and trusted players sort a claimed chest; a stranger and an admin in `/ignoreclaims` don't. Skipped where Modrinth has no GriefPrevention build for that version. |
+| `prism` | A quick transfer shows in Prism as item-insert and item-remove by the player, with the counts, and nothing else. |
 | `coreprotect` | A sort, then CoreProtect's rollback and restore: counts match every time. Skipped where Modrinth has no CoreProtect build for that version. |
 | `import` | `/portmanteau import chestsort` from a made-up ChestSort folder with 12 numbered category files, a read-me and a config: only numbered files are copied, presets are fitted to the new categories with no warnings, and `config.yml` keeps every comment. |
 | `switches` | Each feature off leaves nothing running; the trunk off and on again keeps storage. |

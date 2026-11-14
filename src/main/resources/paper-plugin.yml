@@ -12,6 +12,10 @@ dependencies:
       load: BEFORE
       required: false
       join-classpath: true
+    # Optional. Quick transfers are recorded in it as item-insert and item-remove.
+    prism:
+      load: BEFORE
+      required: false
     # Optional. Sorting checks container trust in claims.
     GriefPrevention:
       load: BEFORE

@@ -46,7 +46,7 @@ Coming from ChestSort: `/portmanteau import chestsort` copies its category files
 
 ## Commands
 
-| Command | Who | |
+| Command | Who | What it does |
 | --- | --- | --- |
 | `/sort` | everyone | Open the sorting setup. |
 | `/sort reset` | everyone | Go back to the server's settings. |
@@ -71,7 +71,7 @@ Permissions: `portmanteau.sort`, `portmanteau.inventory`, `portmanteau.hotkeys`,
 
 ## For developers
 
-`PortmanteauSortEvent` fires before any sort and can be cancelled, or told to leave slots alone. `PortmanteauSortedEvent` fires after a sort that was checked and written. `SortingApi.sort(inventory, player)` sorts your own plain-storage inventory through the same checks.
+`PortmanteauSortEvent` fires before any sort and can be canceled, or told to leave slots alone. `PortmanteauSortedEvent` fires after a sort that was checked and written. `SortingApi.sort(inventory, player)` sorts your own plain-storage inventory through the same checks.
 
 Build with `./gradlew build`. The live tests in [test/live](test/live/README.md) run real Paper servers with bots.
 
